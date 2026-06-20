@@ -31,7 +31,9 @@ void RegisterBraveProfilePrefs(PrefRegistrySimple* registry) {
   }
 
   registry->RegisterBooleanPref(kVerticalTabsFloatingEnabled, true);
-  registry->RegisterIntegerPref(kVerticalTabsExpandedWidth, 220);
+  // PROOF-OF-CONCEPT: vertical-tab sidebar default width scaled by
+  // tabs::kBraveVerticalTabScale (220 * 1.25 = 275).
+  registry->RegisterIntegerPref(kVerticalTabsExpandedWidth, 275);
   registry->RegisterBooleanPref(kVerticalTabsOnRight, false);
   registry->RegisterBooleanPref(kVerticalTabsShowScrollbar, false);
   registry->RegisterBooleanPref(kShowHorizontalTabScrollButtons, false);

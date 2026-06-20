@@ -26,9 +26,16 @@ class TabStrip;
 
 namespace tabs {
 
-inline constexpr int kVerticalTabHeight = 32;
+// PROOF-OF-CONCEPT: vertical-tab scale factor. 1.0 = stock, 1.25 = 25% larger.
+// Adjust this single constant to resize Brave's vertical tabs. Applied to
+// every vertical-tab sizing constant in this header.
+inline constexpr double kBraveVerticalTabScale = 1.25;
+
+inline constexpr int kVerticalTabHeight =
+    static_cast<int>(32 * kBraveVerticalTabScale);
 inline constexpr int kVerticalTabMinWidth = kVerticalTabHeight;
-inline constexpr int kVerticalTabsSpacing = 4;
+inline constexpr int kVerticalTabsSpacing =
+    static_cast<int>(4 * kBraveVerticalTabScale);
 inline constexpr int kMarginForVerticalTabContainers = kVerticalTabsSpacing;
 inline constexpr int kPinnedUnpinnedSeparatorHeight = 1;
 
