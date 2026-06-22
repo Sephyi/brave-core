@@ -4,144 +4,154 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 // Check environment before doing anything.
-import '../lib/checkEnvironment.js'
+import "../lib/checkEnvironment.js";
 
-import fs from 'node:fs'
-import { program } from 'commander'
-import path from 'node:path'
-import config from '../lib/config.ts'
-import util from '../lib/util.js'
-import * as Log from '../lib/log.ts'
-import depotTools from '../lib/depotTools.js'
-import { isCI } from '../lib/ciDetect.ts'
-import syncUtil from '../lib/syncUtils.js'
-import sisoUtils from '../lib/sisoUtils.js'
+import fs from "node:fs";
+import path from "node:path";
+import { program } from "commander";
+import { isCI } from "../lib/ciDetect.ts";
+import config from "../lib/config.ts";
+import depotTools from "../lib/depotTools.js";
+import * as Log from "../lib/log.ts";
+import sisoUtils from "../lib/sisoUtils.js";
+import syncUtil from "../lib/syncUtils.js";
+import util from "../lib/util.js";
 
 program
-  // @ts-ignore
-  .version(process.env.npm_package_version)
-  .option('--gclient_verbose', 'verbose output for gclient')
-  .option('--target_os <target_os>', 'comma-separated target OS list')
-  .option(
-    '--target_arch <target_arch>',
-    'comma-separated target architecture list',
-  )
-  .option('--init', 'initialize all dependencies')
-  .option('--force', 'force reset all projects to origin/ref')
-  .option('--no-history', 'performs a shallow clone') // NOTE: sets program.history = false
-  .option('--fetch_all', 'fetch all tags and branch heads')
-  .option(
-    '-C, --sync_chromium [arg]',
-    'force or skip chromium sync (true/false/1/0)',
-    JSON.parse,
-  )
-  .option(
-    '-D, --delete_unused_deps',
-    'delete from the working copy any dependencies that have been removed since the last sync',
-  )
-  .option('--nohooks', 'Do not run hooks after updating')
-  .option(
-    '--with_issue_44921',
-    'Do not pass --revision to gclient to avoid process hanging on jenkins. https://github.com/brave/brave-browser/issues/44921',
-  )
-  .action(RunCommand)
-  .parse()
+	// @ts-expect-error
+	.version(process.env.npm_package_version)
+	.option("--gclient_verbose", "verbose output for gclient")
+	.option("--target_os <target_os>", "comma-separated target OS list")
+	.option(
+		"--target_arch <target_arch>",
+		"comma-separated target architecture list",
+	)
+	.option("--init", "initialize all dependencies")
+	.option("--force", "force reset all projects to origin/ref")
+	.option("--no-history", "performs a shallow clone") // NOTE: sets program.history = false
+	.option("--fetch_all", "fetch all tags and branch heads")
+	.option(
+		"-C, --sync_chromium [arg]",
+		"force or skip chromium sync (true/false/1/0)",
+		JSON.parse,
+	)
+	.option(
+		"-D, --delete_unused_deps",
+		"delete from the working copy any dependencies that have been removed since the last sync",
+	)
+	.option("--nohooks", "Do not run hooks after updating")
+	.option(
+		"--with_issue_44921",
+		"Do not pass --revision to gclient to avoid process hanging on jenkins. https://github.com/brave/brave-browser/issues/44921",
+	)
+	.action(RunCommand)
+	.parse();
 
 function syncBrave(program) {
-  let args = ['sync', '--nohooks']
-  const syncWithForce = program.init || program.force
-  if (syncWithForce) {
-    args.push('--force')
-  }
+	const args = ["sync", "--nohooks"];
+	const syncWithForce = program.init || program.force;
+	if (syncWithForce) {
+		args.push("--force");
+	}
 
-  if (program.delete_unused_deps) {
-    args.push('-D')
-  }
+	if (program.delete_unused_deps) {
+		args.push("-D");
+	}
 
-  if (program.history === false) {
-    args.push('--no-history')
-  }
+	if (program.history === false) {
+		args.push("--no-history");
+	}
 
-  util.runGclient(
-    args,
-    { cwd: config.braveCoreDir },
-    path.join(config.braveCoreDir, '.brave_gclient'),
-  )
+	util.runGclient(
+		args,
+		{ cwd: config.braveCoreDir },
+		path.join(config.braveCoreDir, ".brave_gclient"),
+	);
+}
+
+function logSyncConfiguration() {
+	Log.status(`Chromium repo: ${config.chromiumRepo}`);
+	Log.status(`depot_tools repo: ${config.depotToolsRepo}`);
+	Log.status(`git cache: ${config.gitCachePath || "[disabled]"}`);
 }
 
 async function RunCommand(program) {
-  // Install depot_tools early to make Python available.
-  depotTools.installDepotTools()
+	// Install depot_tools early to make Python available.
+	depotTools.installDepotTools();
 
-  // Read the existing .gclient config to reuse some values from it if they are
-  // not provided.
-  const existingGclientConfig = program.init ? {} : syncUtil.readGclientConfig()
+	// Read the existing .gclient config to reuse some values from it if they are
+	// not provided.
+	const existingGclientConfig = program.init
+		? {}
+		: syncUtil.readGclientConfig();
 
-  // --target_os, --target_arch as lists make sense only for `init/sync`
-  // commands. Handle comma-separated values here and only pass the first value
-  // to the config.update() call.
-  const targetOSList = commaSeparatedToList(
-    program.target_os,
-    existingGclientConfig.target_os || [],
-  )
-  if (targetOSList.length > 0) {
-    program.target_os = targetOSList[0]
-  }
-  const targetArchList = commaSeparatedToList(
-    program.target_arch,
-    existingGclientConfig.target_cpu || [],
-  )
-  if (targetArchList.length > 0) {
-    program.target_arch = targetArchList[0]
-  }
+	// --target_os, --target_arch as lists make sense only for `init/sync`
+	// commands. Handle comma-separated values here and only pass the first value
+	// to the config.update() call.
+	const targetOSList = commaSeparatedToList(
+		program.target_os,
+		existingGclientConfig.target_os || [],
+	);
+	if (targetOSList.length > 0) {
+		program.target_os = targetOSList[0];
+	}
+	const targetArchList = commaSeparatedToList(
+		program.target_arch,
+		existingGclientConfig.target_cpu || [],
+	);
+	if (targetArchList.length > 0) {
+		program.target_arch = targetArchList[0];
+	}
 
-  config.update(program)
+	config.update(program);
 
-  if (
-    config.disableGclientConfigUpdate
-    && fs.existsSync(config.gclientFile)
-    && !program.init
-  ) {
-    Log.warn(
-      `Skipping ${config.gclientFile} update (disable_gclient_config_update=true)`,
-    )
-  } else {
-    syncUtil.writeGclientConfig(targetOSList, targetArchList)
-  }
+	if (
+		config.disableGclientConfigUpdate &&
+		fs.existsSync(config.gclientFile) &&
+		!program.init
+	) {
+		Log.warn(
+			`Skipping ${config.gclientFile} update (disable_gclient_config_update=true)`,
+		);
+	} else {
+		syncUtil.writeGclientConfig(targetOSList, targetArchList);
+	}
 
-  if (isCI) {
-    program.delete_unused_deps = true
-  }
+	logSyncConfiguration();
 
-  Log.progressScope('gclient sync', () => {
-    const didSyncChromium = syncUtil.syncChromium(program)
-    if (!didSyncChromium || program.delete_unused_deps) {
-      // If no Chromium sync was done, run sync inside `brave` to sync Brave DEPS.
-      syncBrave(program)
-    }
-  })
+	if (isCI) {
+		program.delete_unused_deps = true;
+	}
 
-  depotTools.optOutOfBuildTelemetry()
+	Log.progressScope("gclient sync", () => {
+		const didSyncChromium = syncUtil.syncChromium(program);
+		if (!didSyncChromium || program.delete_unused_deps) {
+			// If no Chromium sync was done, run sync inside `brave` to sync Brave DEPS.
+			syncBrave(program);
+		}
+	});
 
-  await util.applyPatches()
+	depotTools.optOutOfBuildTelemetry();
 
-  if (!program.nohooks) {
-    if (!(await syncUtil.checkInternalDepsEndpoint())) {
-      Log.warn(
-        'The internal dependencies endpoint is unreachable, which may block toolchain downloads. Please check your VPN connection.',
-      )
-    }
-    // Run hooks for the root .gclient, this will include Chromium and Brave
-    // hooks. Don't cache the result, just always rerun this step, because it's
-    // pretty quick in a no-op scenario.
-    Log.progressScope('gclient runhooks', () => {
-      util.runGclient(['runhooks'])
-    })
-  }
+	await util.applyPatches();
 
-  sisoUtils.writeSisoRc()
+	if (!program.nohooks) {
+		if (!(await syncUtil.checkInternalDepsEndpoint())) {
+			Log.warn(
+				"The internal dependencies endpoint is unreachable, which may block toolchain downloads. Please check your VPN connection.",
+			);
+		}
+		// Run hooks for the root .gclient, this will include Chromium and Brave
+		// hooks. Don't cache the result, just always rerun this step, because it's
+		// pretty quick in a no-op scenario.
+		Log.progressScope("gclient runhooks", () => {
+			util.runGclient(["runhooks"]);
+		});
+	}
+
+	sisoUtils.writeSisoRc();
 }
 
 function commaSeparatedToList(value, defaultValue) {
-  return value?.split(',').filter(Boolean) || defaultValue
+	return value?.split(",").filter(Boolean) || defaultValue;
 }
