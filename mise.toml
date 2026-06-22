@@ -54,6 +54,15 @@ GN_ARGS_enable_stripping=true
 # Cache lives at $SCCACHE_DIR (set in [env] above).
 GN_ARGS_cc_wrapper="sccache"
 
+# Git cache for Chromium/deps sync. This is the difference between retries
+# reusing downloaded objects and starting from scratch.
+cache_dir=~/.cache/brave-core
+
+# Optional Chromium mirror override for the primary src checkout.
+# This does not affect depot_tools, and many DEPS still come from repos named
+# in Chromium's DEPS file.
+# projects_chrome_repository_url=https://github.com/chromium/chromium.git
+
 # ---- Brave defaults you may want to override later --------------------------
 # Uncomment + fill in to enable official-build-style keys:
 # brave_google_api_key="..."
