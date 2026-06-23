@@ -35,6 +35,9 @@ resources outside this repository, go to:
   browser and typescript tests.
 - [`gni` notes](gni_sources.md) - Brief notes on the use of `source.gni` files
   in our code base.
+- [Brave UI/UX Architecture Guide](ui_ux_architecture_guide.md) - Map of major
+  user-facing UI surfaces, settings architecture, customization strategies, and
+  developer workflow.
 - [Rust notes](rust.md) - General recommendations on integrating rust code into
   `brave-core`
 - [Adapting Chromium tests to the Brave Codebase](adapting_chromium_tests.md) -
