@@ -75,21 +75,21 @@ echo ".env written. sccache is configured via cc_wrapper above."
 [tasks.init]
 description = "Initialize Chromium checkout (one-time, downloads ~50GB)"
 depends = ["setup"]
-run = "npm run init"
+run = "npm run init && say 'Brave init complete'"
 
 [tasks.sync]
 description = "Update Chromium + brave-core + re-apply patches"
-run = "npm run sync"
+run = "npm run sync && say 'Brave sync complete'"
 
 [tasks.build]
 description = "Build Brave Component (sccache-cached via .env GN_ARGS)"
 depends = ["setup"]
-run = "npm run build"
+run = "npm run build && say 'Brave build complete'"
 
 [tasks.build-release]
 description = "Build Brave Release (slower, optimized binary)"
 depends = ["setup"]
-run = "npm run build Release"
+run = "npm run build Release && say 'Brave release build complete'"
 
 [tasks.start]
 description = "Launch built Brave (Component)"
