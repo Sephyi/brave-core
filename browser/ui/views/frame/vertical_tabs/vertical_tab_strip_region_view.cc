@@ -33,6 +33,7 @@
 #include "brave/components/vector_icons/vector_icons.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/themes/theme_properties.h"
+#include "chrome/browser/browser_process.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/browser_window/public/browser_window_features.h"
 #include "chrome/browser/ui/color/chrome_color_id.h"
@@ -356,6 +357,12 @@ BraveVerticalTabStripRegionView::BraveVerticalTabStripRegionView(
           &BraveVerticalTabStripRegionView::OnFloatingModePrefChanged,
           base::Unretained(this)));
 
+  vertical_tab_scale_.Init(
+      brave_tabs::kVerticalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(
+          &BraveVerticalTabStripRegionView::OnBrowserChromeScalePrefChanged,
+          base::Unretained(this)));
+
 #if BUILDFLAG(IS_MAC)
   show_toolbar_on_fullscreen_pref_.Init(
       prefs::kShowFullscreenToolbar, prefs,
@@ -659,7 +666,7 @@ void BraveVerticalTabStripRegionView::Layout(PassKey) {
 
   const auto contents_bounds = GetContentsBounds();
 
-  constexpr int kNewTabButtonHeight = tabs::kVerticalTabHeight;
+  const int kNewTabButtonHeight = tabs::kVerticalTabHeight;
   const int contents_view_max_height =
       contents_bounds.height() - tabs::kMarginForVerticalTabContainers -
       kNewTabButtonHeight - tabs::kMarginForVerticalTabContainers -
@@ -714,6 +721,17 @@ void BraveVerticalTabStripRegionView::OnShowVerticalTabsPrefChanged() {
 void BraveVerticalTabStripRegionView::OnBrowserPanelsMoved() {
   UpdateBorder();
   PreferredSizeChanged();
+}
+
+void BraveVerticalTabStripRegionView::OnBrowserChromeScalePrefChanged() {
+  if (tabs::utils::ShouldShowBraveVerticalTabs(browser_)) {
+    tab_strip()->tab_container_->InvalidateIdealBounds();
+    tab_strip()->tab_container_->CompleteAnimationAndLayout();
+  }
+
+  PreferredSizeChanged();
+  InvalidateLayout();
+  UpdateBorder();
 }
 
 void BraveVerticalTabStripRegionView::UpdateLayout() {

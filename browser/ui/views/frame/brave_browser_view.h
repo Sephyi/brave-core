@@ -250,6 +250,7 @@ class BraveBrowserView : public BrowserView,
   void UpdateContentsShadowVisibility();
   void StopTabCycling();
   void UpdateSearchTabsButtonState();
+  void OnBrowserChromeScalePrefChanged();
   void OnCompactModePrefChanged();
   void OnPreferenceChanged(const std::string& pref_name);
   void OnWindowClosingConfirmResponse(bool allowed_to_close);
@@ -312,6 +313,10 @@ class BraveBrowserView : public BrowserView,
 
   PrefChangeRegistrar pref_change_registrar_;
   BooleanPrefMember compact_horizontal_tabs_;
+  IntegerPrefMember horizontal_tab_scale_;
+  IntegerPrefMember vertical_tab_scale_;
+  IntegerPrefMember toolbar_scale_;
+  IntegerPrefMember address_bar_scale_;
   base::ScopedObservation<commands::AcceleratorService,
                           commands::AcceleratorService::Observer>
       accelerators_observation_{this};

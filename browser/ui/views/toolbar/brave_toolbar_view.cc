@@ -267,6 +267,18 @@ void BraveToolbarView::Init() {
       brave_tabs::kCompactHorizontalTabs, g_browser_process->local_state(),
       base::BindRepeating(&BraveToolbarView::OnCompactModePrefChanged,
                           base::Unretained(this)));
+    horizontal_tab_scale_.Init(
+      brave_tabs::kHorizontalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveToolbarView::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    toolbar_scale_.Init(
+      brave_tabs::kToolbarScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveToolbarView::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    address_bar_scale_.Init(
+      brave_tabs::kAddressBarScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveToolbarView::OnBrowserChromeScalePrefChanged,
+                          base::Unretained(this)));
 
   if (tabs::utils::SupportsBraveVerticalTabs(browser_)) {
     show_vertical_tabs_.Init(brave_tabs::kVerticalTabsEnabled,
@@ -426,6 +438,11 @@ void BraveToolbarView::OnLocationBarIsWideChanged() {
 
   DeprecatedLayoutImmediately();
   SchedulePaint();
+}
+
+void BraveToolbarView::OnBrowserChromeScalePrefChanged() {
+  PreferredSizeChanged();
+  InvalidateLayout();
 }
 
 void BraveToolbarView::OnCompactModePrefChanged() {

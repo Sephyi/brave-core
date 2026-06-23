@@ -113,6 +113,7 @@ class BraveTabStrip : public TabStrip {
   BraveVerticalTabStripRegionView* GetVerticalTabStripRegionView() const;
 
   void OnAlwaysHideCloseButtonPrefChanged();
+  void OnBrowserChromeScalePrefChanged();
   void OnTabMinWidthModePrefChanged();
   void OnScrollableHorizontalTabStripPrefChanged();
   void OnCompactModePrefChanged();
@@ -125,6 +126,8 @@ class BraveTabStrip : public TabStrip {
   BooleanPrefMember middle_click_close_tab_enabled_;
   BooleanPrefMember scrollable_horizontal_tab_strip_;
   BooleanPrefMember compact_horizontal_tabs_;
+  IntegerPrefMember horizontal_tab_scale_;
+  IntegerPrefMember vertical_tab_scale_;
   IntegerPrefMember tab_min_width_mode_;
 
   base::WeakPtrFactory<BraveTabStrip> weak_factory_{this};

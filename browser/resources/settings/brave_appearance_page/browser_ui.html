@@ -1,0 +1,66 @@
+<style include="cr-shared-style settings-shared"></style>
+
+<settings-section
+  id="browser-ui"
+  page-title="$i18n{appearanceSettingsBrowserUiSection}">
+
+  <settings-toggle-button
+    id="compactModeToggle"
+    class="cr-row first"
+    pref="{{prefs.brave.tabs.compact_horizontal_tabs}}"
+    label="$i18n{SETTINGS_APPEARANCE_SETTINGS_TABS_USE_COMPACT_HORIZONTAL_TABS}">
+  </settings-toggle-button>
+
+  <div class="cr-row settings-box">
+    <div class="flex">
+      <div class="label">$i18n{appearanceSettingsHorizontalTabScale}</div>
+      <div class="secondary label">
+        $i18n{appearanceSettingsHorizontalTabScaleSubLabel}
+      </div>
+    </div>
+    <settings-dropdown-menu
+      pref="{{prefs.brave.ui.horizontal_tab_scale}}"
+      menu-options="[[scaleOptions_]]">
+    </settings-dropdown-menu>
+  </div>
+
+  <div class="cr-row settings-box">
+    <div class="flex">
+      <div class="label">$i18n{appearanceSettingsVerticalTabScale}</div>
+      <div class="secondary label">
+        $i18n{appearanceSettingsVerticalTabScaleSubLabel}
+      </div>
+    </div>
+    <settings-dropdown-menu
+      pref="{{prefs.brave.ui.vertical_tab_scale}}"
+      menu-options="[[scaleOptions_]]">
+    </settings-dropdown-menu>
+  </div>
+
+  <div class="cr-row settings-box">
+    <div class="flex">
+      <div class="label">$i18n{appearanceSettingsToolbarScale}</div>
+      <div class="secondary label">
+        $i18n{appearanceSettingsToolbarScaleSubLabel}
+      </div>
+    </div>
+    <settings-dropdown-menu
+      pref="{{prefs.brave.ui.toolbar_scale}}"
+      menu-options="[[scaleOptions_]]">
+    </settings-dropdown-menu>
+  </div>
+
+  <div class="cr-row settings-box">
+    <div class="flex">
+      <div class="label">$i18n{appearanceSettingsAddressBarScale}</div>
+      <div class="secondary label">
+        $i18n{appearanceSettingsAddressBarScaleSubLabel}
+      </div>
+    </div>
+    <settings-dropdown-menu
+      pref="{{prefs.brave.ui.address_bar_scale}}"
+      menu-options="[[scaleOptions_]]">
+    </settings-dropdown-menu>
+  </div>
+
+</settings-section>

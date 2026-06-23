@@ -219,6 +219,33 @@
   <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_TABS_USE_COMPACT_HORIZONTAL_TABS" desc="The label for the toggle to enable compact horizontal tabs mode" formatter_data="webui=BraveSettings">
     Use compact mode
   </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_BROWSER_UI_SECTION" desc="Title for the browser UI sizing section" formatter_data="webui=BraveSettings">
+    Browser UI
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_HORIZONTAL_TAB_SCALE" desc="Label for the horizontal tab scale setting" formatter_data="webui=BraveSettings">
+    Horizontal tab scale
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_HORIZONTAL_TAB_SCALE_SUB_LABEL" desc="Description for the horizontal tab scale setting" formatter_data="webui=BraveSettings">
+    Applies immediately to the horizontal tab strip.
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_VERTICAL_TAB_SCALE" desc="Label for the vertical tab scale setting" formatter_data="webui=BraveSettings">
+    Vertical tab scale
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_VERTICAL_TAB_SCALE_SUB_LABEL" desc="Description for the vertical tab scale setting" formatter_data="webui=BraveSettings">
+    Applies immediately to vertical tabs and their spacing.
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_TOOLBAR_SCALE" desc="Label for the toolbar scale setting" formatter_data="webui=BraveSettings">
+    Toolbar scale
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_TOOLBAR_SCALE_SUB_LABEL" desc="Description for the toolbar scale setting" formatter_data="webui=BraveSettings">
+    Applies immediately to toolbar buttons and toolbar spacing.
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_ADDRESS_BAR_SCALE" desc="Label for the address bar scale setting" formatter_data="webui=BraveSettings">
+    Address bar scale
+  </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_ADDRESS_BAR_SCALE_SUB_LABEL" desc="Description for the address bar scale setting" formatter_data="webui=BraveSettings">
+    Applies immediately to the address bar and its icons.
+  </message>
   <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_WEB_VIEW_ROUNDED_CORNERS" desc="The label for whether the main content areas should have rounded corners">
     Show rounded corners on main content areas
   </message>

@@ -25,18 +25,23 @@ std::optional<gfx::Insets> GetBraveLayoutInsets(LayoutInset inset) {
   const bool compact = UseCompactHorizontalTabs();
   switch (inset) {
     case LOCATION_BAR_PAGE_INFO_ICON_PADDING:
-      return gfx::Insets::VH(compact ? 4 : 6, 6);
+      return gfx::Insets::VH(
+          brave_tabs::ScaleAddressBarMetric(compact ? 4 : 6),
+          brave_tabs::ScaleAddressBarMetric(6));
     case LOCATION_BAR_PAGE_ACTION_ICON_PADDING:
-      return gfx::Insets::VH(4, 4);
+      return gfx::Insets::VH(brave_tabs::ScaleAddressBarMetric(4),
+                             brave_tabs::ScaleAddressBarMetric(4));
     case TOOLBAR_BUTTON:
       // Use 4 inset - (TOOLBAR_BUTTON_HEIGHT(28) - icon size(20)) / 2
       // icon size - ToolbarButton::kDefaultIconSize
-      return gfx::Insets(touch_ui ? 12 : 4);
+      return gfx::Insets(brave_tabs::ScaleToolbarMetric(touch_ui ? 12 : 4));
     case TOOLBAR_INTERIOR_MARGIN:
       if (touch_ui) {
         return gfx::Insets();
       }
-      return gfx::Insets::VH(compact ? 2 : 4, 6);
+      return gfx::Insets::VH(
+          brave_tabs::ScaleToolbarMetric(compact ? 2 : 4),
+          brave_tabs::ScaleToolbarMetric(6));
     default:
       break;
   }
@@ -71,31 +76,34 @@ std::optional<int> GetBraveLayoutConstant(LayoutConstant constant) {
       if (!HorizontalTabsUpdateEnabled()) {
         return std::nullopt;
       }
-      return UseCompactHorizontalTabs() ? 8 : 1;
+      return brave_tabs::ScaleHorizontalTabMetric(
+          UseCompactHorizontalTabs() ? 8 : 1);
     }
     case LayoutConstant::kLocationBarChildCornerRadius:
       return 4;
     case LayoutConstant::kTabSeparatorHeight: {
-      return 16;
+      return brave_tabs::ScaleHorizontalTabMetric(16);
     }
     case LayoutConstant::kToolbarButtonHeight: {
       // See also SidebarButtonView::kSidebarButtonSize
-      return touch ? 48 : 28;
+      return brave_tabs::ScaleToolbarMetric(touch ? 48 : 28);
     }
     case LayoutConstant::kToolbarCornerRadius:
       return 8;
 
     case LayoutConstant::kLocationBarHeight:
       // Consider adjust below element padding also when this height is changed.
-      return UseCompactHorizontalTabs() ? 28 : 32;
+      return brave_tabs::ScaleAddressBarMetric(
+          UseCompactHorizontalTabs() ? 28 : 32);
     case LayoutConstant::kLocationBarTrailingIconSize:
-      return 18;
+      return brave_tabs::ScaleAddressBarMetric(18);
     case LayoutConstant::kLocationBarIconSize:
-      return 16;
+      return brave_tabs::ScaleAddressBarMetric(16);
     case LayoutConstant::kLocationBarElementPadding:
     case LayoutConstant::kLocationBarPageInfoIconVerticalPadding:
     case LayoutConstant::kLocationBarTrailingDecorationEdgePadding:
-      return UseCompactHorizontalTabs() ? 1 : 2;
+      return brave_tabs::ScaleAddressBarMetric(
+          UseCompactHorizontalTabs() ? 1 : 2);
     default:
       break;
   }
@@ -136,15 +144,19 @@ int GetLayoutConstant(LayoutConstant constant) {
 namespace tabs {
 
 int GetHorizontalTabHeight() {
-  return UseCompactHorizontalTabs() ? 26 : 32;
+  return brave_tabs::ScaleHorizontalTabMetric(UseCompactHorizontalTabs() ? 26
+                                                                        : 32);
 }
 
 int GetHorizontalTabVerticalSpacing() {
-  return UseCompactHorizontalTabs() ? 2 : 4;
+  return brave_tabs::ScaleHorizontalTabMetric(UseCompactHorizontalTabs() ? 2
+                                                                        : 4);
 }
 
 int GetHorizontalTabButtonYOffset() {
-  return UseCompactHorizontalTabs() ? -5 : -4;
+  const int base_height = UseCompactHorizontalTabs() ? 26 : 32;
+  const int base_offset = UseCompactHorizontalTabs() ? -5 : -4;
+  return base_offset + ((GetHorizontalTabHeight() - base_height) / 2);
 }
 
 int GetHorizontalTabStripHeight() {
@@ -152,7 +164,8 @@ int GetHorizontalTabStripHeight() {
 }
 
 int GetHorizontalTabPadding() {
-  return UseCompactHorizontalTabs() ? 4 : 8;
+  return brave_tabs::ScaleHorizontalTabMetric(UseCompactHorizontalTabs() ? 4
+                                                                        : 8);
 }
 
 int GetTabGroupTitleVerticalInset() {
@@ -160,11 +173,13 @@ int GetTabGroupTitleVerticalInset() {
 }
 
 int GetTabGroupTitleHorizontalInset() {
-  return UseCompactHorizontalTabs() ? 6 : 10;
+  return brave_tabs::ScaleHorizontalTabMetric(UseCompactHorizontalTabs() ? 6
+                                                                        : 10);
 }
 
 int GetDragHandleExtensionHeight() {
-  return UseCompactHorizontalTabs() ? 2 : 4;
+  return brave_tabs::ScaleHorizontalTabMetric(UseCompactHorizontalTabs() ? 2
+                                                                        : 4);
 }
 
 bool UseCompactHorizontalTabs() {

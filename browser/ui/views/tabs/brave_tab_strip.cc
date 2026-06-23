@@ -95,6 +95,14 @@ BraveTabStrip::BraveTabStrip(
       brave_tabs::kCompactHorizontalTabs, g_browser_process->local_state(),
       base::BindRepeating(&BraveTabStrip::OnCompactModePrefChanged,
                           base::Unretained(this)));
+    horizontal_tab_scale_.Init(
+      brave_tabs::kHorizontalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveTabStrip::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    vertical_tab_scale_.Init(
+      brave_tabs::kVerticalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveTabStrip::OnBrowserChromeScalePrefChanged,
+                          base::Unretained(this)));
 }
 
 BraveTabStrip::~BraveTabStrip() = default;
@@ -367,6 +375,11 @@ void BraveTabStrip::OnAlwaysHideCloseButtonPrefChanged() {
   for (int i = 0; i < GetTabCount(); ++i) {
     tab_at(i)->InvalidateLayout();
   }
+}
+
+void BraveTabStrip::OnBrowserChromeScalePrefChanged() {
+  InvalidateTabContainerLayout();
+  PreferredSizeChanged();
 }
 
 void BraveTabStrip::OnTabMinWidthModePrefChanged() {

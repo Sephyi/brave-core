@@ -54,6 +54,16 @@ BraveBrowserFrameViewMac::BraveBrowserFrameViewMac(
       base::BindRepeating(
           &BraveBrowserFrameViewMac::UpdateWindowTitleAndControls,
           base::Unretained(this)));
+  horizontal_tab_scale_.Init(
+      brave_tabs::kHorizontalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(
+          &BraveBrowserFrameViewMac::UpdateWindowTitleAndControls,
+          base::Unretained(this)));
+  toolbar_scale_.Init(
+      brave_tabs::kToolbarScale, g_browser_process->local_state(),
+      base::BindRepeating(
+          &BraveBrowserFrameViewMac::UpdateWindowTitleAndControls,
+          base::Unretained(this)));
 }
 
 BraveBrowserFrameViewMac::~BraveBrowserFrameViewMac() = default;

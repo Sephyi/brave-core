@@ -321,6 +321,22 @@ BraveBrowserView::BraveBrowserView(Browser* browser) : BrowserView(browser) {
       brave_tabs::kCompactHorizontalTabs, g_browser_process->local_state(),
       base::BindRepeating(&BraveBrowserView::OnCompactModePrefChanged,
                           base::Unretained(this)));
+    horizontal_tab_scale_.Init(
+      brave_tabs::kHorizontalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveBrowserView::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    vertical_tab_scale_.Init(
+      brave_tabs::kVerticalTabScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveBrowserView::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    toolbar_scale_.Init(
+      brave_tabs::kToolbarScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveBrowserView::OnBrowserChromeScalePrefChanged,
+                base::Unretained(this)));
+    address_bar_scale_.Init(
+      brave_tabs::kAddressBarScale, g_browser_process->local_state(),
+      base::BindRepeating(&BraveBrowserView::OnBrowserChromeScalePrefChanged,
+                          base::Unretained(this)));
 
   pref_change_registrar_.Init(GetProfile()->GetPrefs());
 
@@ -403,6 +419,10 @@ void BraveBrowserView::EnsureFindBarHostViewIsLastChild() {
 }
 
 void BraveBrowserView::OnCompactModePrefChanged() {
+  InvalidateLayout();
+}
+
+void BraveBrowserView::OnBrowserChromeScalePrefChanged() {
   InvalidateLayout();
 }
 

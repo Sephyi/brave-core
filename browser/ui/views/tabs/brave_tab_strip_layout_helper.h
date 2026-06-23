@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "brave/browser/ui/tabs/brave_tab_prefs.h"
 #include "chrome/browser/ui/views/tabs/tab_strip_layout_types.h"
 
 namespace gfx {
@@ -26,21 +27,46 @@ class TabStrip;
 
 namespace tabs {
 
-// PROOF-OF-CONCEPT: vertical-tab scale factor. 1.0 = stock, 1.25 = 25% larger.
-// Adjust this single constant to resize Brave's vertical tabs. Applied to
-// every vertical-tab sizing constant in this header.
-inline constexpr double kBraveVerticalTabScale = 1.25;
+inline int GetVerticalTabHeightValue() {
+    return brave_tabs::ScaleVerticalTabMetric(32);
+}
 
-inline constexpr int kVerticalTabHeight =
-    static_cast<int>(32 * kBraveVerticalTabScale);
-inline constexpr int kVerticalTabMinWidth = kVerticalTabHeight;
-inline constexpr int kVerticalTabsSpacing =
-    static_cast<int>(4 * kBraveVerticalTabScale);
-inline constexpr int kMarginForVerticalTabContainers = kVerticalTabsSpacing;
+inline int GetVerticalTabMinWidthValue() {
+    return GetVerticalTabHeightValue();
+}
+
+inline int GetVerticalTabsSpacingValue() {
+    return brave_tabs::ScaleVerticalTabMetric(4);
+}
+
+inline int GetMarginForVerticalTabContainersValue() {
+    return GetVerticalTabsSpacingValue();
+}
+
 inline constexpr int kPinnedUnpinnedSeparatorHeight = 1;
 
-// The base offset per level for vertical tabs in tree tabs
-inline constexpr int kBaseOffsetPerLevel = 20;
+inline int GetBaseOffsetPerLevelValue() {
+  return brave_tabs::ScaleVerticalTabMetric(20);
+}
+
+struct DynamicLayoutMetric {
+  int (*getter)();
+
+  operator int() const { return getter(); }
+};
+
+inline constexpr DynamicLayoutMetric kVerticalTabHeight{
+    &GetVerticalTabHeightValue};
+inline constexpr DynamicLayoutMetric kVerticalTabMinWidth{
+    &GetVerticalTabMinWidthValue};
+inline constexpr DynamicLayoutMetric kVerticalTabsSpacing{
+    &GetVerticalTabsSpacingValue};
+inline constexpr DynamicLayoutMetric kMarginForVerticalTabContainers{
+    &GetMarginForVerticalTabContainersValue};
+
+// The base offset per level for vertical tabs in tree tabs.
+inline constexpr DynamicLayoutMetric kBaseOffsetPerLevel{
+    &GetBaseOffsetPerLevelValue};
 
 int GetTabCornerRadius(const Tab& tab);
 

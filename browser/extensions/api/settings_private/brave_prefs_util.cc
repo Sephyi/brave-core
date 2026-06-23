@@ -359,6 +359,14 @@ const PrefsUtil::TypedPrefMap& BravePrefsUtil::GetAllowlistedKeys() {
   // Horizontal tabs settings
   (*s_brave_allowlist)[brave_tabs::kCompactHorizontalTabs] =
       settings_api::PrefType::kBoolean;
+  (*s_brave_allowlist)[brave_tabs::kHorizontalTabScale] =
+      settings_api::PrefType::kNumber;
+  (*s_brave_allowlist)[brave_tabs::kVerticalTabScale] =
+      settings_api::PrefType::kNumber;
+  (*s_brave_allowlist)[brave_tabs::kToolbarScale] =
+      settings_api::PrefType::kNumber;
+  (*s_brave_allowlist)[brave_tabs::kAddressBarScale] =
+      settings_api::PrefType::kNumber;
 #endif
 
 #if BUILDFLAG(ENABLE_PLAYLIST)

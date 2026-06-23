@@ -143,7 +143,7 @@ void CalculatePinnedTabsBoundsInGrid(
   // We need to lay out pinned tabs in a grid while filling the available width.
   // This will be done with base width and distributing extra widths to the
   // first few tabs by 1 pixels.
-  auto base_pinned_tab_width = kVerticalTabMinWidth;
+  int base_pinned_tab_width = kVerticalTabMinWidth;
   std::vector<int> extra_widths;
   int tabs_in_one_row = 1;
 

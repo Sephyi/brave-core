@@ -78,6 +78,7 @@ class BraveToolbarView : public ToolbarView,
   void UpdateVerticalTabTogglePlacement();
   void UpdateVerticalTabToggleState();
   void OnVerticalTabTogglePressed();
+  void OnBrowserChromeScalePrefChanged();
   void OnCompactModePrefChanged();
 
   // ProfileAttributesStorage::Observer:
@@ -120,6 +121,9 @@ class BraveToolbarView : public ToolbarView,
 
   BooleanPrefMember location_bar_is_wide_;
   BooleanPrefMember compact_horizontal_tabs_;
+  IntegerPrefMember horizontal_tab_scale_;
+  IntegerPrefMember toolbar_scale_;
+  IntegerPrefMember address_bar_scale_;
 
   BooleanPrefMember show_vertical_tabs_;
   BooleanPrefMember show_title_bar_on_vertical_tabs_;

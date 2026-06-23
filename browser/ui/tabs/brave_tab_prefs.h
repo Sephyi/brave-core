@@ -49,6 +49,19 @@ inline constexpr char kSharedPinnedTab[] = "brave.tabs.shared_pinned_tab";
 inline constexpr char kCompactHorizontalTabs[] =
     "brave.tabs.compact_horizontal_tabs";
 
+// An integer local state pref storing the browser chrome scale as a
+// percentage. The value is kept in local state so sizing code in global layout
+// helpers can read it without requiring a Profile.
+inline constexpr char kBrowserChromeScale[] = "brave.ui.browser_chrome_scale";
+inline constexpr char kHorizontalTabScale[] =
+    "brave.ui.horizontal_tab_scale";
+inline constexpr char kVerticalTabScale[] = "brave.ui.vertical_tab_scale";
+inline constexpr char kToolbarScale[] = "brave.ui.toolbar_scale";
+inline constexpr char kAddressBarScale[] = "brave.ui.address_bar_scale";
+inline constexpr int kBrowserChromeScaleDefault = 100;
+inline constexpr int kBrowserChromeScaleMin = 90;
+inline constexpr int kBrowserChromeScaleMax = 150;
+
 inline constexpr char kAlwaysHideTabCloseButton[] =
     "brave.tabs.always_hide_tab_close_button";
 
@@ -76,6 +89,17 @@ void RegisterBraveProfilePrefs(PrefRegistrySimple* registry);
 void MigrateBraveProfilePrefs(PrefService* prefs);
 
 void RegisterLocalStatePrefs(PrefRegistrySimple* registry);
+
+int GetBrowserChromeScale();
+int GetHorizontalTabScale();
+int GetVerticalTabScale();
+int GetToolbarScale();
+int GetAddressBarScale();
+int ScaleBrowserChromeMetric(int value);
+int ScaleHorizontalTabMetric(int value);
+int ScaleVerticalTabMetric(int value);
+int ScaleToolbarMetric(int value);
+int ScaleAddressBarMetric(int value);
 
 bool AreTooltipsEnabled(PrefService* prefs);
 bool AreCardPreviewsEnabled(PrefService* prefs);
