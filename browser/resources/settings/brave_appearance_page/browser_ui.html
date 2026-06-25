@@ -4,9 +4,18 @@
   id="browser-ui"
   page-title="$i18n{appearanceSettingsBrowserUiSection}">
 
+<if expr="is_macosx">
+  <settings-toggle-button
+    id="showFullscreenToolbarToggle"
+    class="cr-row first"
+    pref="{{prefs.browser.show_fullscreen_toolbar}}"
+    label="$i18n{appearanceSettingsShowFullscreenToolbar}">
+  </settings-toggle-button>
+</if>
+
   <settings-toggle-button
     id="compactModeToggle"
-    class="cr-row first"
+    class="cr-row <if expr="not is_macosx">first</if>"
     pref="{{prefs.brave.tabs.compact_horizontal_tabs}}"
     label="$i18n{SETTINGS_APPEARANCE_SETTINGS_TABS_USE_COMPACT_HORIZONTAL_TABS}">
   </settings-toggle-button>

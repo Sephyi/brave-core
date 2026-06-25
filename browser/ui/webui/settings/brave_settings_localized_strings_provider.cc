@@ -335,6 +335,10 @@ void BraveAddCommonStrings(content::WebUIDataSource* html_source,
        IDS_SETTINGS_APPEARANCE_SETTINGS_BRAVE_SHARED_PINNED_TAB},
     {"appearanceSettingsBrowserUiSection",
      IDS_SETTINGS_APPEARANCE_SETTINGS_BROWSER_UI_SECTION},
+#if BUILDFLAG(IS_MAC)
+    {"appearanceSettingsShowFullscreenToolbar",
+     IDS_SETTINGS_APPEARANCE_SETTINGS_SHOW_FULLSCREEN_TOOLBAR},
+#endif
     {"appearanceSettingsHorizontalTabScale",
      IDS_SETTINGS_APPEARANCE_SETTINGS_HORIZONTAL_TAB_SCALE},
     {"appearanceSettingsHorizontalTabScaleSubLabel",

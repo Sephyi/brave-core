@@ -280,6 +280,12 @@ void OverrideDefaultPrefValues(user_prefs::PrefRegistrySyncable* registry) {
                                 base::Value(false));
   registry->SetDefaultPrefValue(prefs::kWebRtcTextLogCollectionAllowed,
                                 base::Value(false));
+
+#if BUILDFLAG(IS_MAC)
+  // Hide the toolbar in fullscreen by default. It can be revealed on hover.
+  registry->SetDefaultPrefValue(prefs::kShowFullscreenToolbar,
+                                base::Value(false));
+#endif
 }
 
 }  // namespace

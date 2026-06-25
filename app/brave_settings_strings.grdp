@@ -222,6 +222,9 @@
   <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_BROWSER_UI_SECTION" desc="Title for the browser UI sizing section" formatter_data="webui=BraveSettings">
     Browser UI
   </message>
+  <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_SHOW_FULLSCREEN_TOOLBAR" desc="Label for the toggle allowing the toolbar to hide and show in fullscreen" formatter_data="webui=BraveSettings">
+    Always show toolbar in full screen
+  </message>
   <message name="IDS_SETTINGS_APPEARANCE_SETTINGS_HORIZONTAL_TAB_SCALE" desc="Label for the horizontal tab scale setting" formatter_data="webui=BraveSettings">
     Horizontal tab scale
   </message>
